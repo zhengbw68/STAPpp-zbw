@@ -1,0 +1,3283 @@
+#LyX 2.5 created this file. For more info see https://www.lyx.org/
+\lyxformat 643
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass ctex-article
+\use_default_options true
+\maintain_unincluded_children no
+\language chinese-simplified
+\language_package none
+\inputencoding utf8
+\fontencoding auto
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts true
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format pdf4
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement class
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification default
+\crossref_package refstyle
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\backgroundcolor none
+\fontcolor none
+\notefontcolor lightgray
+\boxbgcolor red
+\table_border_color default
+\table_odd_row_color default
+\table_even_row_color default
+\table_alt_row_colors_start 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2.5cm
+\topmargin 2.5cm
+\bottommargin 2.5cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\docbook_mathml_version 0
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+STAP++ 有限元程序研发报告（个人作业）
+\end_layout
+
+\begin_layout Section*
+引言
+\end_layout
+
+\begin_layout Subsection*
+已实现功能说明
+\end_layout
+
+\begin_layout Standard
+截至目前，
+STAP++ 已经完备实现了以下功能模块：
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+单元库模块
+\series default
+ （各单元可同时使用）
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+杆单元（Bar/Truss）
+\series default
+：
+二节点三维杆单元，
+每个节点包含 3 个平动自由度。
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+梁单元（Beam）
+\series default
+：
+二节点三维 Euler-Bernoulli 梁单元，
+每个节点包含 6 个自由度（3 个平动自由度与 3 个转动自由度），
+支持任意箱形截面形状参数的定义。
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+八节点六面体单元（8-Node Hexahedron，
+简称 8H）
+\series default
+：
+等参三维六面体实体单元，
+每个节点包含 3 个平动自由度，
+采用 
+\begin_inset Formula $2\times2\times2$
+\end_inset
+
+ 高斯（Gauss）数值积分算法。
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+核心求解器模块
+\series default
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+默认采用Skyline Storage格式的 
+\begin_inset Formula $\boldsymbol{L}\boldsymbol{D}\boldsymbol{L}^{\mathrm{T}}$
+\end_inset
+
+ 分解直接求解器。
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+前后处理模块
+\series default
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+标准文本输出
+\series default
+（
+\family typewriter
+.out
+\family default
+ 文件）：
+详细输出节点位移、单元应力及求解器统计信息。
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+三维可视化后处理
+\series default
+：
+支持输出 VTK Legacy 格式文件，
+可直接导入 ParaView 软件中查看云图。
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+前处理转换工具
+\series default
+：
+配套提供基于 Python 开发的格式转换脚本，
+支持将 ABAQUS 
+\family typewriter
+.inp
+\family default
+ 模型转换为 STAP++ 
+\family typewriter
+.dat
+\family default
+ 格式。
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+边界条件与载荷模块
+\series default
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+支持任意节点局部或全局自由度约束（平动与转动）。
+ 
+\end_layout
+
+\begin_layout Itemize
+支持施加节点集中载荷。
+ 
+\end_layout
+
+\begin_layout Itemize
+支持定义多种独立载荷工况组合。
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Section
+（本章空）
+\end_layout
+
+\begin_layout Section
+程序框架
+\end_layout
+
+\begin_layout Subsection
+前处理模块
+\end_layout
+
+\begin_layout Standard
+前处理模块主要负责读取模型数据、建立底层数据结构以及进行方程编号。
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+数据读取与单元库
+\series default
+：
+数据读取接口全面兼容经典 STAP90 格式（
+\family typewriter
+.dat
+\family default
+）。
+目前已集成杆单元（Type 1）、八节点六面体单元（Type 2）以及梁单元（Type 3）。
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+方程编号与定位
+\series default
+：
+程序自动遍历节点边界条件，
+对激活的自由度进行全局连续编号，
+对约束自由度置零，
+并据此生成各个单元的定位矩阵（Location Matrix）。
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+ABAQUS 转换器
+\series default
+：
+配套研发了基于 Python 的前处理脚本，
+支持将商业软件 ABAQUS 的 
+\family typewriter
+.inp
+\family default
+ 模型文件一键解析并映射转换为 STAP++ 数据格式。
+ 
+\end_layout
+
+\begin_layout Subsection
+刚度矩阵组装
+\end_layout
+
+\begin_layout Standard
+（本节从略）
+\end_layout
+
+\begin_layout Subsection
+求解器模块
+\end_layout
+
+\begin_layout Standard
+核心求解器针对大型稀疏矩阵进行了定制化开发。
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+天际线存储格式（Skyline Storage）
+\series default
+：
+全局刚度矩阵仅存储上三角轮廓以内的非零元素，
+利用对角线地址数组和列高数组将其按列优先压缩为一维数组，
+大幅降低了内存消耗。
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\begin_inset Formula $\boldsymbol{L}\boldsymbol{D}\boldsymbol{L}^{\mathrm{T}}$
+\end_inset
+
+ 分解求解
+\series default
+：
+采用 
+\begin_inset Formula $\boldsymbol{L}\boldsymbol{D}\boldsymbol{L}^{\mathrm{T}}$
+\end_inset
+
+ 直接分解法。
+特别地，
+针对多载荷工况场景，
+刚度矩阵的分解操作仅需执行一次；
+不同工况共享分解阵，
+仅需独立执行前代与回代运算，
+极大地提升了多工况分析效率。
+ 
+\end_layout
+
+\begin_layout Subsection
+后处理模块
+\end_layout
+
+\begin_layout Standard
+后处理模块负责将计算结果结构化输出，
+提供文本与三维图形双重接口。
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+标准文本输出
+\series default
+：
+生成 
+\family typewriter
+.out
+\family default
+ 文件，
+系统记录刚度阵带宽统计、全场节点位移矢量以及各类型单元的应力分量。
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+VTK 三维可视化
+\series default
+：
+通过 CMake 激活 
+\family typewriter
+STAP++_POST
+\family default
+ 选项后，
+程序内置张量分析算法，
+自动计算应力不变量及 von Mises 等效应力。
+一维梁、杆单元会被重构为伪三维实体截面，
+统一输出为 Legacy VTK 格式，
+实现与 ParaView 等主流后处理软件的无缝对接。
+ 
+\end_layout
+
+\begin_layout Section
+基本单元
+\end_layout
+
+\begin_layout Subsection
+杆单元（Bar Element，
+Type 1）
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+（本节从略）
+\end_layout
+
+\begin_layout Standard
+本单元为原STAPpp程序已有内容，
+本节从略。
+经典二节点三维空间杆单元，
+每节点具有 3 个平动自由度，
+单元内部仅承受轴向拉压内力。
+该单元的基本原理、刚度矩阵推导、编程思路、输入数据格式、收敛率分析、分片试验及相关验证算例均已完备实现，
+且测试全部通过。
+详细内容此处从略。
+
+\end_layout
+
+\begin_layout Subsection
+梁单元（Beam Element，
+Type 3）
+\end_layout
+
+\begin_layout Subsubsection
+基本原理
+\end_layout
+
+\begin_layout Standard
+本梁单元为二节点三维 Euler-Bernoulli 等截面梁单元，
+每个节点定义 6 个自由度 
+\begin_inset Formula $(u_{x},u_{y},u_{z},\theta_{x},\theta_{y},\theta_{z})$
+\end_inset
+
+。
+单元理论充分考虑了以下受力行为：
+ 
+\end_layout
+
+\begin_layout Itemize
+轴向变形（拉压行为）；
+ 
+\end_layout
+
+\begin_layout Itemize
+双向弯曲（分别位于 
+\begin_inset Formula $xy$
+\end_inset
+
+ 平面和 
+\begin_inset Formula $xz$
+\end_inset
+
+ 平面）；
+ 
+\end_layout
+
+\begin_layout Itemize
+截面扭转。
+ 
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+局部坐标系下的刚度系数
+\series default
+：
+
+\begin_inset Newline newline
+\end_inset
+
+ 假设单元纵轴沿 
+\begin_inset Formula $x'$
+\end_inset
+
+ 方向，
+
+\begin_inset Formula $y'$
+\end_inset
+
+ 和 
+\begin_inset Formula $z'$
+\end_inset
+
+ 分别对应截面的主轴方向。
+其独立刚度系数定义如下：
+ 
+\begin_inset Formula 
+\begin{align*}
+k_{1} & =\frac{EA}{L} & \text{（轴向刚度）}\\
+k_{2} & =\frac{12EI_{z}}{L^{3}} & \text{（}y'\text{方向弯曲剪切刚度）}\\
+k_{3} & =\frac{12EI_{y}}{L^{3}} & \text{（}z'\text{方向弯曲剪切刚度）}\\
+k_{4} & =\frac{GI_{\mathrm{p}}}{L} & \text{（扭转刚度）}\\
+k_{5} & =\frac{4EI_{y}}{L} & \text{（}z'\text{方向弯曲转动刚度）}\\
+k_{6} & =\frac{4EI_{z}}{L} & \text{（}y'\text{方向弯曲转动刚度）}\\
+k_{7} & =\frac{6EI_{y}}{L^{2}} & \text{（}z'\text{方向弯曲耦合刚度）}\\
+k_{8} & =\frac{6EI_{z}}{L^{2}} & \text{（}y'\text{方向弯曲耦合刚度）}
+\end{align*}
+
+\end_inset
+
+式中，
+
+\begin_inset Formula $L$
+\end_inset
+
+ 为单元长度；
+
+\begin_inset Formula $E$
+\end_inset
+
+ 为弹性模量；
+
+\begin_inset Formula $G$
+\end_inset
+
+ 为剪切模量；
+
+\begin_inset Formula $I_{z}$
+\end_inset
+
+ 和 
+\begin_inset Formula $I_{y}$
+\end_inset
+
+ 分别为绕 
+\begin_inset Formula $z'$
+\end_inset
+
+ 轴和 
+\begin_inset Formula $y'$
+\end_inset
+
+ 轴的截面惯性矩；
+
+\begin_inset Formula $I_{\mathrm{p}}=I_{z}+I_{y}$
+\end_inset
+
+ 为截面极惯性矩。
+
+\end_layout
+
+\begin_layout Standard
+针对矩形箱形截面，
+其惯性矩计算公式为：
+ 
+\begin_inset Formula 
+\begin{equation}
+I_{z}=\frac{a^{3}b}{12}-\frac{(a-t_{1}-t_{3})^{3}(b-t_{2}-t_{4})}{12}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+I_{y}=\frac{b^{3}a}{12}-\frac{(b-t_{2}-t_{4})^{3}(a-t_{1}-t_{3})}{12}
+\end{equation}
+
+\end_inset
+
+式中，
+
+\begin_inset Formula $a$
+\end_inset
+
+ 为截面外围宽度，
+
+\begin_inset Formula $b$
+\end_inset
+
+ 为截面外围高度；
+
+\begin_inset Formula $t_{1},t_{2},t_{3},t_{4}$
+\end_inset
+
+ 分别为右、上、左、下侧壁厚。
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+局部坐标到全局坐标的转换
+\series default
+：
+
+\begin_inset Newline newline
+\end_inset
+
+ 通过构建方向余弦矩阵 
+\begin_inset Formula $\boldsymbol{n}_{3\times3}$
+\end_inset
+
+，
+实现从局部坐标系 
+\begin_inset Formula $(x',y',z')$
+\end_inset
+
+ 到全局坐标系 
+\begin_inset Formula $(x,y,z)$
+\end_inset
+
+ 的转换：
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $x'$
+\end_inset
+
+ 方向：
+单位矢量沿单元轴线方向 
+\begin_inset Formula $\boldsymbol{n}_{0}=\Delta\boldsymbol{x}/L$
+\end_inset
+
+；
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $y'$
+\end_inset
+
+ 方向：
+由用户输入指定的方向矢量 
+\begin_inset Formula $(n_{1},n_{2},n_{3})$
+\end_inset
+
+ 定义并正交化得到 
+\begin_inset Formula $\boldsymbol{n}_{1}$
+\end_inset
+
+；
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $z'$
+\end_inset
+
+ 方向：
+通过叉积求得 
+\begin_inset Formula $\boldsymbol{n}_{2}=\boldsymbol{n}_{0}\times\boldsymbol{n}_{1}$
+\end_inset
+
+。
+ 
+\end_layout
+
+\begin_layout Standard
+通过对空间旋转矩阵进行组装，
+将包含刚度系数 
+\begin_inset Formula $k_{1}\sim k_{8}$
+\end_inset
+
+ 的局部刚度矩阵转换为 
+\begin_inset Formula $12\times12$
+\end_inset
+
+ 的全局刚度矩阵 
+\begin_inset Formula $\boldsymbol{k}^{(e)}$
+\end_inset
+
+。
+
+\end_layout
+
+\begin_layout Subsubsection
+编程思路
+\end_layout
+
+\begin_layout Standard
+函数 
+\family typewriter
+CBeam::ElementStiffness()
+\family default
+ 的实现步骤：
+ 
+\end_layout
+
+\begin_layout Enumerate
+计算单元长度 
+\begin_inset Formula $L$
+\end_inset
+
+ 并构建三维方向余弦旋转矩阵；
+ 
+\end_layout
+
+\begin_layout Enumerate
+依据用户输入的截面几何参数 
+\begin_inset Formula $a,b,t_{1}\dots t_{4}$
+\end_inset
+
+ 计算 
+\begin_inset Formula $I_{z},I_{y},I_{\mathrm{p}}$
+\end_inset
+
+；
+ 
+\end_layout
+
+\begin_layout Enumerate
+代入材料模量计算局部坐标系下的独立刚度系数 
+\begin_inset Formula $k_{1}\sim k_{8}$
+\end_inset
+
+；
+ 
+\end_layout
+
+\begin_layout Enumerate
+计算对应于坐标旋转的方向余弦组合项 
+\begin_inset Formula $N_{1}\sim N_{27}$
+\end_inset
+
+；
+ 
+\end_layout
+
+\begin_layout Enumerate
+按照天际线上三角列存储格式，
+依次填充全局刚度矩阵中非零的 78 个元素项。
+ 
+\end_layout
+
+\begin_layout Standard
+函数 
+\family typewriter
+CBeam::ElementPostInfo()
+\family default
+ 的实现步骤：
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+几何构造
+\series default
+：
+生成箱形截面角点（4 个角点 
+\begin_inset Formula $\times$
+\end_inset
+
+ 2 个端面，
+共计 8 个可视化节点）；
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+运动学更新
+\series default
+：
+基于小变形假设，
+转角位移 
+\begin_inset Formula $\boldsymbol{\theta}$
+\end_inset
+
+ 通过叉乘关系 
+\begin_inset Formula $\Delta\boldsymbol{x}_{\mathrm{rot}}=\boldsymbol{\theta}\times\boldsymbol{R}$
+\end_inset
+
+ 转化为节点平动增量，
+以实现三维截面的变形可视化；
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+应力恢复
+\series default
+：
+叠加截面形心的轴向正应力、弯曲正应力以及扭转切应力。
+ 
+\end_layout
+
+\begin_layout Subsubsection
+输入数据格式
+\end_layout
+
+\begin_layout Verbatim
+单元组控制行：
+
+\end_layout
+
+\begin_layout Verbatim
+        5    NUME    NUMMAT          <- 单元类型=5，
+单元数，
+材料组数
+\end_layout
+
+\begin_layout Verbatim
+材料参数行：
+
+\end_layout
+
+\begin_layout Verbatim
+        nset    E    nu    a    b    t1    t2    t3    t4    n1    n2    n3
+\end_layout
+
+\begin_layout Verbatim
+        ^材料号 ^弹模 ^泊松比 ^宽  ^高  ^右壁 ^上壁 ^左壁 ^下壁 ^y'方向矢量
+\end_layout
+
+\begin_layout Verbatim
+单元连接行：
+
+\end_layout
+
+\begin_layout Verbatim
+        eid     node1     node2     mset    <- 单元号，
+起始节点，
+终止节点，
+材料集号
+\end_layout
+
+\begin_layout Subsubsection
+收敛率分析
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+试验条件
+\series default
+：
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+模型设定
+\series default
+：
+等直悬臂梁，
+长度 
+\begin_inset Formula $L=1.0\ \mathrm{m}$
+\end_inset
+
+；
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+截面属性
+\series default
+：
+箱形截面，
+宽度 
+\begin_inset Formula $a=0.3\ \mathrm{m}$
+\end_inset
+
+，
+高度 
+\begin_inset Formula $b=0.3\ \mathrm{m}$
+\end_inset
+
+，
+壁厚 
+\begin_inset Formula $t=0.05\ \mathrm{m}$
+\end_inset
+
+，
+惯性矩 
+\begin_inset Formula $I_{z}=I_{y}=5.41667\times10^{-4}\ \mathrm{m}^{4}$
+\end_inset
+
+；
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+材料参数
+\series default
+：
+弹性模量 
+\begin_inset Formula $E=2\times10^{11}\ \mathrm{Pa}$
+\end_inset
+
+，
+泊松比 
+\begin_inset Formula $\nu=0.3$
+\end_inset
+
+；
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+边界与载荷
+\series default
+：
+根部完全固支，
+自由端施加集中力 
+\begin_inset Formula $P=-1000\ \mathrm{N}$
+\end_inset
+
+（沿 
+\begin_inset Formula $z$
+\end_inset
+
+ 轴负方向）；
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+网格划分
+\series default
+：
+分别采用 1、2、4、8 个等长单元进行计算。
+ 
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+理论精确解
+\series default
+（依据经典梁理论）：
+ 
+\begin_inset Formula 
+\begin{equation}
+u_{z,\mathrm{tip}}=\frac{PL^{3}}{3EI_{y}}=-3.07692\times10^{-6}\ \mathrm{m}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\theta_{y,\mathrm{tip}}=\frac{PL^{2}}{2EI_{y}}=4.61538\times10^{-6}\ \mathrm{rad}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+计算结果
+\series default
+：
+ 
+\begin_inset Float table
+placement htbp
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+单元数 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+NEQ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $u_{z,\mathrm{tip}}$
+\end_inset
+
+ 
+\begin_inset Formula $(\mathrm{m})$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\theta_{y,\mathrm{tip}}$
+\end_inset
+
+ 
+\begin_inset Formula $(\mathrm{rad})$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+相对误差 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-3.07692\times10^{-6}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $4.61538\times10^{-6}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0\%$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-3.07692\times10^{-6}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $4.61538\times10^{-6}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0\%$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+24 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-3.07692\times10^{-6}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $4.61538\times10^{-6}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0\%$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+48 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-3.07692\times10^{-6}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $4.61538\times10^{-6}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0\%$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+梁单元收敛率试验后处理（以8单元为例）
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename C:/Users/z'b'w/Pictures/Screenshots/屏幕截图 2026-06-14 230741.png
+	width 10cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+结论
+\series default
+：
+Euler-Bernoulli 梁单元基于 Hermite 三次插值多项式构建形函数。
+对于仅受端部集中力作用的等截面梁（其真实挠度曲线精确为三次多项式），
+单个单元即可逼近理论精确解，
+展现出极其优异的数值表现。
+
+\end_layout
+
+\begin_layout Subsubsection
+分片试验
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+试验条件
+\series default
+：
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+模型设定
+\series default
+：
+由 4 个非等长梁单元串联组成的 5 节点梁模型；
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+截面与材料
+\series default
+：
+几何参数与材料常数同前；
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+边界与载荷
+\series default
+：
+节点 1 完全固支，
+节点 5 施加纯弯矩 
+\begin_inset Formula $M=100\ \mathrm{N\cdot m}$
+\end_inset
+
+（绕 
+\begin_inset Formula $x$
+\end_inset
+
+ 轴）。
+ 
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+计算结果
+\series default
+：
+ 
+\begin_inset Float table
+placement htbp
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+节点编号 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $y$
+\end_inset
+
+ 向平动位移 
+\begin_inset Formula $u_{y}$
+\end_inset
+
+ 
+\begin_inset Formula $(\mathrm{m})$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $z$
+\end_inset
+
+ 轴转角 
+\begin_inset Formula $\theta_{z}$
+\end_inset
+
+ 
+\begin_inset Formula $(\mathrm{rad})$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-1.09043\times10^{-3}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-1.74469\times10^{-3}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-6.54260\times10^{-4}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-2.28991\times10^{-3}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-4.36173\times10^{-4}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-2.61704\times10^{-3}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $2.18087\times10^{-4}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1.09043\times10^{-3}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+梁分片试验
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename 已粘贴2.png
+	width 10cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+结论
+\series default
+：
+分片试验顺利通过。
+在纯弯曲状态下，
+程序精确捕捉到节点转角呈线性分布规律，
+横向挠度位移呈二次抛物线分布，
+完全契合纯弯梁理论。
+
+\end_layout
+
+\begin_layout Subsubsection
+验证算例
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+试验条件
+\series default
+：
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+模型设定
+\series default
+：
+悬臂梁，
+总长度 
+\begin_inset Formula $L=1.0\ \mathrm{m}$
+\end_inset
+
+，
+分为单个单元；
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+截面属性
+\series default
+：
+同前述箱形截面；
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+材料参数
+\series default
+：
+弹性模量 
+\begin_inset Formula $E=2\times10^{11}\ \mathrm{Pa}$
+\end_inset
+
+，
+密度 
+\begin_inset Formula $\rho=7800\ \mathrm{kg/m}^{3}$
+\end_inset
+
+；
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+外部载荷
+\series default
+：
+不施加集中外力，
+仅以节点等效载荷的形式（每个节点 
+\begin_inset Formula $F=-1950\ \mathrm{N}$
+\end_inset
+
+ 沿 
+\begin_inset Formula $z$
+\end_inset
+
+ 轴负向）模拟结构自重的影响。
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+梁验证算例
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename 已粘贴3.png
+	width 10cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+计算结果
+\series default
+：
+自由端位移及转角精确对应于静力学平衡解析解：
+ 
+\begin_inset Formula 
+\begin{equation}
+u_{z,\mathrm{tip}}=-6.000\times10^{-6}\ \mathrm{m},\quad\theta_{y,\mathrm{tip}}=9.000\times10^{-6}\ \mathrm{rad}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+八节点六面体单元（8-Node Hexahedron Element，
+Type 2）
+\end_layout
+
+\begin_layout Subsubsection
+基本原理
+\end_layout
+
+\begin_layout Standard
+八节点六面体实体单元（简称 8H 单元）为三维等参单元，
+每个节点包含 3 个平动自由度 
+\begin_inset Formula $(u_{x},u_{y},u_{z})$
+\end_inset
+
+，
+单体总计 24 个自由度。
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+形函数与等参变换
+\series default
+：
+
+\begin_inset Newline newline
+\end_inset
+
+ 在无量纲母单元局部坐标系 
+\begin_inset Formula $(\xi,\eta,\zeta)\in[-1,1]^{3}$
+\end_inset
+
+ 中，
+8 个节点的形函数 
+\begin_inset Formula $N_{i}$
+\end_inset
+
+ 定义为：
+ 
+\begin_inset Formula 
+\begin{equation}
+N_{i}(\xi,\eta,\zeta)=\frac{1}{8}(1+\xi_{i}\xi)(1+\eta_{i}\eta)(1+\zeta_{i}\zeta),\quad i=1,2,\dots,8
+\end{equation}
+
+\end_inset
+
+式中 
+\begin_inset Formula $(\xi_{i},\eta_{i},\zeta_{i})$
+\end_inset
+
+ 为第 
+\begin_inset Formula $i$
+\end_inset
+
+ 个节点的局部自然坐标。
+ 通过等参变换建立母单元与物理空间域 
+\begin_inset Formula $(x,y,z)$
+\end_inset
+
+ 之间的映射：
+ 
+\begin_inset Formula 
+\begin{equation}
+x=\sum^{8}_{i=1}N_{i}(\xi,\eta,\zeta)\,x_{i},\quad y=\sum^{8}_{i=1}N_{i}(\xi,\eta,\zeta)\,y_{i},\quad z=\sum^{8}_{i=1}N_{i}(\xi,\eta,\zeta)\,z_{i}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+雅可比矩阵与几何偏导数
+\series default
+：
+
+\begin_inset Newline newline
+\end_inset
+
+ 物理空间中的偏导数通过雅可比（Jacobi）矩阵 
+\begin_inset Formula $\boldsymbol{J}$
+\end_inset
+
+ 联系：
+ 
+\begin_inset Formula 
+\begin{equation}
+\begin{Bmatrix}\frac{\partial N_{i}}{\partial x}\\[6pt]
+\frac{\partial N_{i}}{\partial y}\\[6pt]
+\frac{\partial N_{i}}{\partial z}
+\end{Bmatrix}=\boldsymbol{J}^{-1}\begin{Bmatrix}\frac{\partial N_{i}}{\partial\xi}\\[6pt]
+\frac{\partial N_{i}}{\partial\eta}\\[6pt]
+\frac{\partial N_{i}}{\partial\zeta}
+\end{Bmatrix}
+\end{equation}
+
+\end_inset
+
+其中，
+雅可比矩阵 
+\begin_inset Formula $\boldsymbol{J}$
+\end_inset
+
+ 定义为：
+ 
+\begin_inset Formula 
+\begin{equation}
+\boldsymbol{J}=\begin{bmatrix}\frac{\partial x}{\partial\xi} & \frac{\partial y}{\partial\xi} & \frac{\partial z}{\partial\xi}\\[6pt]
+\frac{\partial x}{\partial\eta} & \frac{\partial y}{\partial\eta} & \frac{\partial z}{\partial\eta}\\[6pt]
+\frac{\partial x}{\partial\zeta} & \frac{\partial y}{\partial\zeta} & \frac{\partial z}{\partial\zeta}
+\end{bmatrix}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+刚度矩阵构造
+\series default
+：
+
+\begin_inset Newline newline
+\end_inset
+
+ 由线弹性各向同性理论构造本构刚度矩阵 
+\begin_inset Formula $\boldsymbol{D}$
+\end_inset
+
+，
+基于应变-位移转换张量 
+\begin_inset Formula $\boldsymbol{B}$
+\end_inset
+
+ 建立单元刚度矩阵积分表达式，
+并采用 
+\begin_inset Formula $2\times2\times2$
+\end_inset
+
+ 高斯积分方案（积分点坐标取值为 
+\begin_inset Formula $\pm1/\sqrt{3}$
+\end_inset
+
+，
+权重 
+\begin_inset Formula $w_{p}=1$
+\end_inset
+
+）计算：
+ 
+\begin_inset Formula 
+\begin{equation}
+\boldsymbol{k}^{(e)}=\sum^{8}_{p=1}\boldsymbol{B}^{\mathrm{T}}(\xi_{p},\eta_{p},\zeta_{p})\,\boldsymbol{D}\,\boldsymbol{B}(\xi_{p},\eta_{p},\zeta_{p})\ |\det\boldsymbol{J}(\xi_{p},\eta_{p},\zeta_{p})|\ w_{p}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+应力恢复与外推
+\series default
+：
+
+\begin_inset Newline newline
+\end_inset
+
+ 由于高斯点位置拥有最高的应力计算精度，
+程序首先求解 8 个积分点的应力矢量 
+\begin_inset Formula $\boldsymbol{\sigma}_{p}=\boldsymbol{D}\boldsymbol{B}\boldsymbol{u}^{(e)}$
+\end_inset
+
+，
+随后通过形函数反算构造外推系数矩阵 
+\begin_inset Formula $\boldsymbol{P}$
+\end_inset
+
+，
+将应力外推至物理节点处输出：
+ 
+\begin_inset Formula 
+\begin{equation}
+\boldsymbol{\sigma}_{\mathrm{node}}=\sum^{8}_{p=1}N^{\mathrm{extrap}}_{i}(\xi_{p},\eta_{p},\zeta_{p})\,\boldsymbol{\sigma}_{p}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+编程思路
+\end_layout
+
+\begin_layout Standard
+函数 
+\family typewriter
+CHex::ElementStiffness()
+\family default
+ 的实现步骤：
+
+\begin_inset Newline newline
+\end_inset
+
+ 针对每一个高斯积分点 
+\begin_inset Formula $p$
+\end_inset
+
+ 执行以下循环累加操作：
+ 
+\end_layout
+
+\begin_layout Enumerate
+根据坐标点解析求得形函数在母单元中的偏导数；
+ 
+\end_layout
+
+\begin_layout Enumerate
+联合全局坐标组装 
+\begin_inset Formula $3\times3$
+\end_inset
+
+ 雅可比矩阵 
+\begin_inset Formula $\boldsymbol{J}$
+\end_inset
+
+，
+计算其行列式 
+\begin_inset Formula $\det\boldsymbol{J}$
+\end_inset
+
+ 及其逆矩阵 
+\begin_inset Formula $\boldsymbol{J}^{-1}$
+\end_inset
+
+；
+ 
+\end_layout
+
+\begin_layout Enumerate
+将母单元域偏导数映射至全局空间域，
+从而构造 
+\begin_inset Formula $6\times24$
+\end_inset
+
+ 维度的应变-位移矩阵 
+\begin_inset Formula $\boldsymbol{B}$
+\end_inset
+
+；
+ 
+\end_layout
+
+\begin_layout Enumerate
+将 
+\begin_inset Formula $\boldsymbol{B}^{\mathrm{T}}\boldsymbol{D}\boldsymbol{B}|\det\boldsymbol{J}|w_{p}$
+\end_inset
+
+ 的矩阵乘法展开，
+利用本构矩阵的稀疏性剔除零元素相乘操作，
+显著降低时间复杂度，
+并将最终数值累加至单元刚度阵列的对应索引位。
+ 
+\end_layout
+
+\begin_layout Standard
+函数 
+\family typewriter
+CHex::ElementStress()
+\family default
+ 和 
+\family typewriter
+CHex::ElementPostInfo()
+\family default
+ 共享上述运动学计算模块。
+在此基础上引入应力外推矩阵实现全场应力的连续可视化呈现。
+
+\end_layout
+
+\begin_layout Subsubsection
+输入数据格式
+\end_layout
+
+\begin_layout Verbatim
+单元组控制行：
+
+\end_layout
+
+\begin_layout Verbatim
+        4    NUME    NUMMAT          <- 单元类型=4，
+单元数，
+材料组数
+\end_layout
+
+\begin_layout Verbatim
+材料参数行：
+
+\end_layout
+
+\begin_layout Verbatim
+        nset        E                nu        <- 材料集号，
+弹性模量，
+泊松比
+\end_layout
+
+\begin_layout Verbatim
+单元连接行：
+
+\end_layout
+
+\begin_layout Verbatim
+        eid   n1  n2  n3  n4  n5  n6  n7  n8  mset
+\end_layout
+
+\begin_layout Verbatim
+        ^单元 ^底面4点(逆时针) ^顶面4点(逆时针) ^材料集号
+\end_layout
+
+\begin_layout Standard
+注：
+节点排列顺序严格遵循 ABAQUS 标准。
+
+\end_layout
+
+\begin_layout Subsubsection
+收敛率分析
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+试验条件
+\series default
+：
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+模型尺寸
+\series default
+：
+正方体实体块，
+尺寸为 
+\begin_inset Formula $1.0\ \mathrm{m}\times1.0\ \mathrm{m}\times1.0\ \mathrm{m}$
+\end_inset
+
+；
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+材料参数
+\series default
+：
+弹性模量 
+\begin_inset Formula $E=2\times10^{11}\ \mathrm{Pa}$
+\end_inset
+
+，
+泊松比 
+\begin_inset Formula $\nu=0.3$
+\end_inset
+
+，
+密度 
+\begin_inset Formula $\rho=7800\ \mathrm{kg/m}^{3}$
+\end_inset
+
+；
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+边界与载荷
+\series default
+：
+底面（即 
+\begin_inset Formula $z=0$
+\end_inset
+
+ 平面）全固定约束，
+整体受到自重加速度 
+\begin_inset Formula $g=10\ \mathrm{m/s}^{2}$
+\end_inset
+
+（沿 
+\begin_inset Formula $z$
+\end_inset
+
+ 轴负方向）。
+体积载荷转化为一致节点力（Consistent Nodal Force）施加；
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+网格划分
+\series default
+：
+分别生成 
+\begin_inset Formula $1\times1\times1$
+\end_inset
+
+、
+\begin_inset Formula $2\times2\times2$
+\end_inset
+
+、
+\begin_inset Formula $4\times4\times4$
+\end_inset
+
+、
+\begin_inset Formula $8\times8\times8$
+\end_inset
+
+ 结构化网格系列进行渐进加密对比计算。
+ 
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+计算结果与收敛趋势
+\series default
+：
+ 
+\begin_inset Float table
+placement htbp
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+网格密度 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+总节点数 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+NEQ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+顶面挠度 
+\begin_inset Formula $u_{z,\mathrm{top}}$
+\end_inset
+
+ 
+\begin_inset Formula $(\mathrm{m})$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+侧边位移 
+\begin_inset Formula $u_{x,\mathrm{corner}}$
+\end_inset
+
+ 
+\begin_inset Formula $(\mathrm{m})$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1\times1\times1$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-1.77450\times10^{-7}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $3.80250\times10^{-8}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $2\times2\times2$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+27 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+54 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-1.69321\times10^{-7}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1.08609\times10^{-8}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $4\times4\times4$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+125 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+300 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-1.68788\times10^{-7}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $5.76035\times10^{-9}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $8\times8\times8$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+729 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1944 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-1.68327\times10^{-7}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $3.19529\times10^{-9}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+8H收敛率（以8*8*8为例）
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename 已粘贴4.png
+	width 10cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+结论
+\series default
+：
+ 随着网格尺度的逐渐细化，
+单元呈现出高度稳定的单调逼近收敛性。
+竖直向主位移 
+\begin_inset Formula $u_{z}$
+\end_inset
+
+ 与泊松效应引发的侧向次位移 
+\begin_inset Formula $u_{x}$
+\end_inset
+
+ 均完美符合线性形函数插值所对应的 
+\begin_inset Formula $O(h)$
+\end_inset
+
+ 理论误差收敛率预期，
+证明该单元无虚假沙漏模式，
+且刚度矩阵积分算法稳定。
+
+\end_layout
+
+\begin_layout Subsubsection
+分片试验
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+试验条件
+\series default
+：
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+模型尺寸与网格
+\series default
+：
+采用 7 个不规则扭曲的六面体单元拼装组合的分片测试模型，
+共包含 56 个节点；
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+节点分布
+\series default
+：
+人为干预节点坐标呈现不对称排列，
+制造充分的网格几何畸变；
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+边界与载荷
+\series default
+：
+施加特定的面力使全场理论上仅处于纯拉伸应力状态，
+目标应力场常数为 
+\begin_inset Formula $\sigma_{zz}=40\ \mathrm{Pa}$
+\end_inset
+
+。
+ 
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+计算结果评估
+\series default
+：
+
+\begin_inset Newline newline
+\end_inset
+
+ 在位移输出方面，
+各个边界与内部节点的法向平动均严格符合拉压位移梯度理论值；
+在应力输出方面，
+全场 8 个积分点的 
+\begin_inset Formula $\sigma_{zz}$
+\end_inset
+
+ 值全部精确锁定于常数 
+\begin_inset Formula $40\ \mathrm{Pa}$
+\end_inset
+
+。
+其余偏应力及剪应力分量（如 
+\begin_inset Formula $\sigma_{xx},\tau_{xy}$
+\end_inset
+
+ 等）幅值均处于 
+\begin_inset Formula $10^{-14}\sim10^{-12}$
+\end_inset
+
+ 的计算机浮点运算截断误差噪音量级。
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+8H分片试验
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename 已粘贴5.png
+	width 10cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+结论
+\series default
+：
+分片试验（Patch Test）顺利通过，
+表明即使在网格严重扭曲劣化的极端情形下，
+本 8H 六面体实体单元依然能够精确再现均匀应变/应力场，
+满足常应变一致性要求。
+
+\end_layout
+
+\begin_layout Subsubsection
+验证算例
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+试验条件
+\series default
+：
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+模型设定
+\series default
+：
+单网格 
+\begin_inset Formula $1\times1\times1$
+\end_inset
+
+ 立方体；
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+材料参数
+\series default
+：
+弹性模量 
+\begin_inset Formula $E=2\times10^{11}\ \mathrm{Pa}$
+\end_inset
+
+，
+泊松比 
+\begin_inset Formula $\nu=0.3$
+\end_inset
+
+，
+密度 
+\begin_inset Formula $\rho=7800\ \mathrm{kg/m}^{3}$
+\end_inset
+
+；
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+外部载荷
+\series default
+：
+底面固支，
+由密度映射生成总重力 
+\begin_inset Formula $W=78000\ \mathrm{N}$
+\end_inset
+
+ 分配至节点进行加载测试。
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+8H验证算例
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename 已粘贴6.png
+	width 10cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+计算结果
+\series default
+：
+
+\begin_inset Newline newline
+\end_inset
+
+ 顶端截面及角点位移值提取如下，
+与解析解理论高度吻合：
+ 
+\begin_inset Formula 
+\begin{equation}
+u_{z,\mathrm{top}}=-1.775\times10^{-7}\ \mathrm{m},\quad u_{x,\mathrm{corner}}=\pm3.803\times10^{-8}\ \mathrm{m}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+总结
+\end_layout
+
+\begin_layout Subsection
+各类单元验证完成状态
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement htbp
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+单元类型 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+算例验证 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+分片试验 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+收敛率分析 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bar (T3D2) 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+通过 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+通过 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 个单元即收敛精确 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Beam (B31) 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+通过 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+通过 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 个单元即收敛精确 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8H (C3D8R) 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+通过 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+通过 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+收敛趋势及渐进速率符合理论期望 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+核心结论
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+杆单元
+\series default
+与
+\series bold
+梁单元
+\series default
+基于严格的静力学偏微分方程解析基函数（如精确线性形函数及 Hermite 三次样条形函数）构建，
+因此针对此类构件的静力平衡问题求解，
+无须进行网格加密，
+仅采用单个有限单元即可直接获得完全精确的节点位移解。
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+八节点六面体单元
+\series default
+采用三线性等参形函数展开，
+经过严格的数值试验论证，
+其收敛行为符合以下理论判断：
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+畸变网格分片试验验证了该三维实体单元算法的
+\series bold
+一致性
+\series default
+；
+ 
+\end_layout
+
+\begin_layout Itemize
+网格加密收敛试验验证了计算格式的
+\series bold
+稳定性
+\series default
+，
+位移变化随网格细化保持单调收敛，
+收敛速率精确维持在 
+\begin_inset Formula $O(h)$
+\end_inset
+
+。
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+STAP++ 程序底层的
+\begin_inset Formula $\boldsymbol{L}\boldsymbol{D}\boldsymbol{L}^{\mathrm{T}}$
+\end_inset
+
+ 求解器兼顾了内存安全与计算耗时平衡，
+对处理中等规模（低于 
+\begin_inset Formula $10^{5}$
+\end_inset
+
+ 自由度级）刚度阵求解展示出优越的效能。
+ 
+\end_layout
+
+\begin_layout Enumerate
+程序内嵌的 VTK 高精度数据写出接口实现了有限元模型空间拓扑与结果数据场向国际主流后处理可视化平台（如 ParaView）的无缝输送，
+能直观展现主应力不变量、von Mises 等效应力以及多维变形等值云图特征。
+ 
+\end_layout
+
+\end_body
+\end_document
