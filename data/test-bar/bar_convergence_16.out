@@ -1,0 +1,149 @@
+
+ S O L U T I O N   T I M E   L O G   I N   S E C 
+
+     TIME FOR INPUT PHASE = 0.0162487
+     TIME FOR CALCULATION OF STIFFNESS MATRIX = 2.81e-05
+     TIME FOR FACTORIZATION AND LOAD CASE SOLUTIONS = 0.0002832
+
+     T O T A L   S O L U T I O N   T I M E = 0.0246439
+ NUMBER OF LOAD CASES . . . . . . . . . . . (NLCASE) =     1
+      SOLUTION MODE  . . . . . . . . . . . . . . (MODEX)  =     1
+         EQ.0, DATA CHECK
+         EQ.1, EXECUTION
+
+ N O D A L   P O I N T   D A T A
+
+    NODE       BOUNDARY                         NODAL POINT
+   NUMBER  CONDITION  CODES                     COORDINATES
+        1    1    1    1       0.00000e+00    0.00000e+00    0.00000e+00
+        2    0    1    1       3.43750e-01    0.00000e+00    0.00000e+00
+        3    0    1    1       6.87500e-01    0.00000e+00    0.00000e+00
+        4    0    1    1       1.03125e+00    0.00000e+00    0.00000e+00
+        5    0    1    1       1.37500e+00    0.00000e+00    0.00000e+00
+        6    0    1    1       1.71875e+00    0.00000e+00    0.00000e+00
+        7    0    1    1       2.06250e+00    0.00000e+00    0.00000e+00
+        8    0    1    1       2.40625e+00    0.00000e+00    0.00000e+00
+        9    0    1    1       2.75000e+00    0.00000e+00    0.00000e+00
+       10    0    1    1       3.09375e+00    0.00000e+00    0.00000e+00
+       11    0    1    1       3.43750e+00    0.00000e+00    0.00000e+00
+       12    0    1    1       3.78125e+00    0.00000e+00    0.00000e+00
+       13    0    1    1       4.12500e+00    0.00000e+00    0.00000e+00
+       14    0    1    1       4.46875e+00    0.00000e+00    0.00000e+00
+       15    0    1    1       4.81250e+00    0.00000e+00    0.00000e+00
+       16    0    1    1       5.15625e+00    0.00000e+00    0.00000e+00
+       17    0    1    1       5.50000e+00    0.00000e+00    0.00000e+00
+
+ L O A D   C A S E   D A T A
+
+     LOAD CASE NUMBER . . . . . . . =     1
+     NUMBER OF CONCENTRATED LOADS . =     1
+
+    NODE       DIRECTION      LOAD
+   NUMBER                   MAGNITUDE
+     17            1        1.00000e+03
+
+ E L E M E N T   G R O U P   D A T A
+
+
+ E L E M E N T   D E F I N I T I O N
+
+ ELEMENT TYPE  . . . . . . . . . . . . .( NPAR(1) ) . . =    1
+     EQ.1, TRUSS ELEMENTS
+     EQ.2, ELEMENTS CURRENTLY
+     EQ.3, NOT AVAILABLE
+
+ NUMBER OF ELEMENTS. . . . . . . . . . .( NPAR(2) ) . . =   16
+
+ M A T E R I A L   D E F I N I T I O N
+
+ NUMBER OF DIFFERENT SETS OF MATERIAL
+ AND CROSS-SECTIONAL  CONSTANTS  . . . .( NPAR(3) ) . . =    1
+
+  SET       YOUNG'S     CROSS-SECTIONAL
+ NUMBER     MODULUS          AREA
+               E              A
+    1     2.00000e+11     1.00000e-02
+
+
+ E L E M E N T   I N F O R M A T I O N
+ ELEMENT     NODE     NODE       MATERIAL
+ NUMBER-N      I        J       SET NUMBER
+    1          1        2           1
+    2          2        3           1
+    3          3        4           1
+    4          4        5           1
+    5          5        6           1
+    6          6        7           1
+    7          7        8           1
+    8          8        9           1
+    9          9       10           1
+   10         10       11           1
+   11         11       12           1
+   12         12       13           1
+   13         13       14           1
+   14         14       15           1
+   15         15       16           1
+   16         16       17           1
+
+ EQUATION NUMBERS
+
+   NODE NUMBER   DEGREES OF FREEDOM
+        N           X    Y    Z
+        1           0    0    0    0    0    0
+        2           1    0    0    0    0    0
+        3           2    0    0    0    0    0
+        4           3    0    0    0    0    0
+        5           4    0    0    0    0    0
+        6           5    0    0    0    0    0
+        7           6    0    0    0    0    0
+        8           7    0    0    0    0    0
+        9           8    0    0    0    0    0
+       10           9    0    0    0    0    0
+       11          10    0    0    0    0    0
+       12          11    0    0    0    0    0
+       13          12    0    0    0    0    0
+       14          13    0    0    0    0    0
+       15          14    0    0    0    0    0
+       16          15    0    0    0    0    0
+       17          16    0    0    0    0    0
+
+	TOTAL SYSTEM DATA
+
+     NUMBER OF EQUATIONS . . . . . . . . . . . . . .(NEQ) = 16
+     NUMBER OF MATRIX ELEMENTS . . . . . . . . . . .(NWK) = 31
+     MAXIMUM HALF BANDWIDTH  . . . . . . . . . . . .(MK ) = 2
+     MEAN HALF BANDWIDTH . . . . . . . . . . . . . .(MM ) = 1
+
+
+ LOAD CASE    1
+
+
+ D I S P L A C E M E N T S
+
+  NODE           X-DISPLACEMENT    Y-DISPLACEMENT    Z-DISPLACEMENT      X-ROTATION        Y-ROTATION        Z-ROTATION
+    1               0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00
+    2               1.71875e-07       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00
+    3               3.43750e-07       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00
+    4               5.15625e-07       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00
+    5               6.87500e-07       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00
+    6               8.59375e-07       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00
+    7               1.03125e-06       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00
+    8               1.20312e-06       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00
+    9               1.37500e-06       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00
+   10               1.54687e-06       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00
+   11               1.71875e-06       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00
+   12               1.89062e-06       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00
+   13               2.06250e-06       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00
+   14               2.23437e-06       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00
+   15               2.40625e-06       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00
+   16               2.57812e-06       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00
+   17               2.75000e-06       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00       0.00000e+00
+
+
+ S O L U T I O N   T I M E   L O G   I N   S E C 
+
+     TIME FOR INPUT PHASE = 1.62487e-02
+     TIME FOR CALCULATION OF STIFFNESS MATRIX = 2.81000e-05
+     TIME FOR FACTORIZATION AND LOAD CASE SOLUTIONS = 2.83200e-04
+
+     T O T A L   S O L U T I O N   T I M E = 2.46439e-02
